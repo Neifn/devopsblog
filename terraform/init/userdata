@@ -1,0 +1,21 @@
+"Fn::Base64": {
+  "Fn::Join": [
+    "",
+      [
+        "#!/bin/bash\n",
+        "sudo apt-get -y update",
+        "sudo apt-get install software-properties-common -y",
+        "sudo apt-add-repository ppa:ansible/ansible -y",
+        "sudo apt-get update -y",
+        "sudo apt-get install ansible -y",
+  	"echo -e \"",
+	  {
+            "Ref": "SSHRSAHostPrivateKey"
+          },
+        "\" > /root/.ssh/id_rsa\n",    
+        "chmod 400 /root/.ssh/id_rsa\n",
+        "git clone https://github.com/Neifn/AnsibleNeifn1 /opt/ansible\n",
+        "cd /opt/ansible && ansible-playbook playbook.yml -i hosts -u ubuntu\n"
+    ]
+  ]
+}

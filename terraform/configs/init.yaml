@@ -2,3 +2,9 @@
 # yaml variables for profile
 global:
   main_bucket_name: devopsblog-remote-states-tf
+  instance_type_bastion: t2.micro
+  instance_type_ansible: t2.micro
+  image_id: ami-09447c6f
+  subnet_id: subnet-ca2952af
+  vpc_id: vpc-c842cdad
+  ssh_key: test_terr

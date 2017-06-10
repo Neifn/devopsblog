@@ -13,3 +13,7 @@ provider "aws" {
   profile                 = "${var.aws_profile}"
 }
 ######################################
+variable "image_id" {}
+variable "subnet_id" {}
+variable "vpc_id" {}
+variable "ssh_key" {}
