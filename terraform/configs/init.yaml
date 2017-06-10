@@ -8,3 +8,4 @@ global:
   subnet_id: subnet-ca2952af
   vpc_id: vpc-c842cdad
   ssh_key: test_terr
+  vpc_cidr: 10.0.0.0/17 

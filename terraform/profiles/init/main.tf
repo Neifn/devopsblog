@@ -17,3 +17,4 @@ variable "image_id" {}
 variable "subnet_id" {}
 variable "vpc_id" {}
 variable "ssh_key" {}
+variable "vpc_cidr" {}

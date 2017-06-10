@@ -19,6 +19,14 @@ resource "aws_autoscaling_group" "bastionscaling" {
   max_size             = 1
   vpc_zone_identifier  = ["${var.subnet_id}"]
 
+  tags = [ 
+    {
+      key                 = "Name"
+      value               = "${var.username}-${var.environment}-bastion"
+      propagate_at_launch = true
+    },
+  ]
+
   lifecycle {
     create_before_destroy = true
   }
