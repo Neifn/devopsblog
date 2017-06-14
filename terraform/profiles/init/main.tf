@@ -13,10 +13,5 @@ provider "aws" {
   profile                 = "${var.aws_profile}"
 }
 ######################################
-variable "image_id" {}
-variable "subnet_id" {}
-variable "vpc_id" {}
-variable "ssh_key" {}
-variable "vpc_cidr" {}
-variable "public_subnet_cidr" {}
-variable "private_subnet_cidr" {}
+variable "global" {type="map"}
+variable "keys" {type="map"}

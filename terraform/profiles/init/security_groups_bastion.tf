@@ -15,5 +15,5 @@ resource "aws_security_group" "bastion_security" {
     protocol        = "tcp"
     cidr_blocks     = ["0.0.0.0/0"]
   }
-  vpc_id            = "${var.vpc_id}"
+  vpc_id            = "${aws_vpc.custom_vpc.id}"
 }

@@ -1,19 +1,18 @@
-variable "instance_type_ansible" {}
-variable "SSHRSAHostPrivateKey" {}
+variable "ansible" {type="map"}
 
 data "template_file" "userdata_ansible" {
   template = "${file("../../templates/init/userdata_ansible.tpl")}"
   vars {
-    SSHRSAHostPrivateKey = "${var.SSHRSAHostPrivateKey}"
+    SSHRSAHostPrivateKey = "${var.keys["SSHRSAHostPrivateKey"]}"
   }
 }
 
 resource "aws_launch_configuration" "ansible" {
   name_prefix         = "${var.username}-${var.environment}-ansible"
-  image_id            = "${var.image_id}"
-  instance_type       = "${var.instance_type_ansible}"
+  image_id            = "${var.ansible["image_id"]}"
+  instance_type       = "${var.ansible["instance_type"]}"
   security_groups     = ["${aws_security_group.ansible_security.id}"]
-  key_name            = "${var.ssh_key}"
+  key_name            = "${var.global["ssh_key"]}"
 
   user_data           = "${data.template_file.userdata_ansible.rendered}"
 
@@ -27,7 +26,7 @@ resource "aws_autoscaling_group" "ansiblescaling" {
   launch_configuration = "${aws_launch_configuration.ansible.name}"
   min_size             = 1
   max_size             = 1
-  vpc_zone_identifier  = ["${var.subnet_id}"]
+  vpc_zone_identifier  = ["${aws_subnet.eu-west-1a-private.id}"]
 
   tags = [
     {

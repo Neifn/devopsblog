@@ -26,5 +26,5 @@ resource "aws_security_group" "ansible_security" {
     protocol        = "tcp"
     security_groups = ["${aws_security_group.bastion_security.id}"]
   }
-  vpc_id            = "${var.vpc_id}"
+  vpc_id            = "${aws_vpc.custom_vpc.id}"
 }
