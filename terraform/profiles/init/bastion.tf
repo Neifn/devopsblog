@@ -2,10 +2,12 @@ variable "instance_type_bastion" {}
 
 
 resource "aws_launch_configuration" "bastion" {
-  name_prefix         = "${var.username}-${var.environment}-bastion"
-  image_id            = "${var.image_id}"
-  instance_type       = "${var.instance_type_bastion}"
-  security_groups     = ["${aws_security_group.bastion_security.id}"]
+  name_prefix                 = "${var.username}-${var.environment}-bastion"
+  image_id                    = "${var.image_id}"
+  instance_type               = "${var.instance_type_bastion}"
+  security_groups             = ["${aws_security_group.bastion_security.id}"]
+  key_name                    = "${var.ssh_key}"
+  associate_public_ip_address = true 
 
   lifecycle {
     create_before_destroy = true

@@ -2,7 +2,7 @@ variable "instance_type_ansible" {}
 variable "SSHRSAHostPrivateKey" {}
 
 data "template_file" "userdata_ansible" {
-  template = "${file("userdata_ansible.tpl")}"
+  template = "${file("../../templates/init/userdata_ansible.tpl")}"
   vars {
     SSHRSAHostPrivateKey = "${var.SSHRSAHostPrivateKey}"
   }
@@ -32,7 +32,7 @@ resource "aws_autoscaling_group" "ansiblescaling" {
   tags = [
     {
       key                 = "Name"
-      value               = "${var.username}-${var.environment}-bastion"
+      value               = "${var.username}-${var.environment}-ansible"
       propagate_at_launch = true
     },
   ]

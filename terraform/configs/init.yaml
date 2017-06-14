@@ -8,4 +8,8 @@ global:
   subnet_id: subnet-ca2952af
   vpc_id: vpc-c842cdad
   ssh_key: test_terr
-  vpc_cidr: 10.0.0.0/17 
+  vpc_cidr: 10.0.0.0/16 
+  instance_type_nat: t2.micro
+  image_id_nat: ami-30913f47
+  public_subnet_cidr: 10.0.0.0/24
+  private_subnet_cidr: 10.0.1.0/24
