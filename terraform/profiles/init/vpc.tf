@@ -12,16 +12,19 @@ data "aws_iam_policy_document" "instance-assume-role-policy" {
 }
 
 data "template_file" "userdata_nat" {
-  template = "${file("../../templates/init/userdata_nat.tpl")}"
+  template = "#!/bin/bash\n${file("../../templates/init/userdata_nat.tpl")}${file("../../templates/init/userdata_common.tpl")}"
   vars {
-    REGION = "${var.region}"
-    ROUTETABLEID = "${aws_route_table.eu-west-1a-private.id}"
-    ELASTICIP = "${aws_eip.nat_ip.id}"
-  }
+    SSHRSAAnsibleServerPublicKey = "${var.keys["SSHRSAAnsibleServerPublicKey"]}"
+    REGION                       = "${var.region}"
+    ROUTETABLEID                 = "${aws_route_table.eu-west-1a-private.id}"
+    ELASTICIP                    = "${aws_eip.nat_ip.id}"
+    SSHRSAAnsibleUserPrivateKey  = "${var.keys["SSHRSAAnsibleUserPrivateKey"]}" 
+}
 }
 
 resource "aws_vpc" "custom_vpc" {
-  cidr_block       = "10.0.0.0/16"
+  cidr_block           = "10.0.0.0/16"
+  enable_dns_hostnames = true
 
   tags {
     Name = "${var.username}-${var.environment}-vpc"

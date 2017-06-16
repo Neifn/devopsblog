@@ -1,9 +1,11 @@
 variable "ansible" {type="map"}
 
 data "template_file" "userdata_ansible" {
-  template = "${file("../../templates/init/userdata_ansible.tpl")}"
+  template = "#!/bin/bash\n${file("../../templates/init/userdata_ansible.tpl")}"
   vars {
-    SSHRSAHostPrivateKey = "${var.keys["SSHRSAHostPrivateKey"]}"
+    SSHRSAAnsibleServerPrivateKey = "${var.keys["SSHRSAAnsibleServerPrivateKey"]}"
+    SSHRSAHostPrivateKey          = "${var.keys["SSHRSAHostPrivateKey"]}"
+    SSHRSAAnsibleUserPublicKey    = "${var.keys["SSHRSAAnsibleUserPublicKey"]}"
   }
 }
 

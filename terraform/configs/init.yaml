@@ -13,5 +13,5 @@ bastion:
   image_id: ami-09447c6f
 
 nat:
-  instance_type: t1.micro
-  image_id: ami-30913f47
+  instance_type: t2.micro
+  image_id: ami-09447c6f
