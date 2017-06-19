@@ -14,12 +14,15 @@ data "aws_iam_policy_document" "instance-assume-role-policy" {
 data "template_file" "userdata_nat" {
   template = "#!/bin/bash\n${file("../../templates/init/userdata_nat.tpl")}${file("../../templates/init/userdata_common.tpl")}"
   vars {
+    ANSIBLEDNSFQDN               = "${aws_route53_record.dns-ansible-elb.fqdn}"
     SSHRSAAnsibleServerPublicKey = "${var.keys["SSHRSAAnsibleServerPublicKey"]}"
     REGION                       = "${var.region}"
     ROUTETABLEID                 = "${aws_route_table.eu-west-1a-private.id}"
     ELASTICIP                    = "${aws_eip.nat_ip.id}"
     SSHRSAAnsibleUserPrivateKey  = "${var.keys["SSHRSAAnsibleUserPrivateKey"]}" 
-}
+    PLAYBOOK                     = "nat.yml"
+    HOST                         = ""
+  }
 }
 
 resource "aws_vpc" "custom_vpc" {

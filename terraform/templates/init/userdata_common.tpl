@@ -1,18 +1,28 @@
-#creating special user to access ansible server
-useradd -m ansible-user -s /bin/bash
-
-#importing ssh key
-mkdir /home/ansible-user/.ssh
-echo "${SSHRSAAnsibleUserPrivateKey}" > /home/ansible-user/.ssh/id_rsa
-chmod 400 /home/ansible-user/.ssh/id_rsa
+#importing ssh key to grant access to ansible user
+mkdir -p /root/.ssh
+echo "${SSHRSAAnsibleUserPrivateKey}" > /root/.ssh/id_rsa_ansible
+chmod 400 /root/.ssh/id_rsa_ansible
 
 #adding configs to access ansible server
-echo -e "Host *\n  User ansible-user\n  StrictHostKeyChecking no\n  UserKnownHostsFile=/dev/null" > /home/ansible-user/.ssh/config
-chmod 644 /home/ansible-user/.ssh/config
-chmod 700 /home/ansible-user/.ssh
-chown -R ansible-user:ansible-user /home/ansible-user/.ssh
+echo -e "Host ansible\n  HostName ${ANSIBLEDNSFQDN}\n  User ansible-user\n  StrictHostKeyChecking no\n  UserKnownHostsFile=/dev/null\n  IdentityFile /root/.ssh/id_rsa_ansible" >> /root/.ssh/config
+chmod 644 /root/.ssh/config
+chmod 700 /root/.ssh
 
 #giving ansible access to the instance as root
-mkdir /root/.ssh
-echo "${SSHRSAAnsibleServerPublicKey}" > /root/.ssh/authorized_keys
-chmod 600 /root/.ssh/authorized_keys
+echo "${SSHRSAAnsibleServerPublicKey}" >> /home/ubuntu/.ssh/authorized_keys
+chmod 600 /home/ubuntu/.ssh/authorized_keys
+chown -R ubuntu:ubuntu /home/ubuntu/.ssh
+
+#accessing ansible served and triggering script to install appropriate packages
+while true
+do
+  HOST=$( curl http://169.254.169.254/latest/meta-data/local-ipv4 )
+  if sudo ssh ansible
+    then
+      cd /opt/ansible
+      ./ansible_run.sh ${PLAYBOOK} ${HOST}
+      break
+    else
+      wait 30
+  fi
+done

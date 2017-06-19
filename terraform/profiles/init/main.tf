@@ -15,3 +15,4 @@ provider "aws" {
 ######################################
 variable "global" {type="map"}
 variable "keys" {type="map"}
+variable "dns_zones" {type="map"}
