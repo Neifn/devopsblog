@@ -11,8 +11,7 @@ data "template_file" "userdata_bastion" {
     SSHRSAHostPrivateKey         = "${var.keys["SSHRSAHostPrivateKey"]}"
     SSHRSAAnsibleUserPrivateKey  = "${var.keys["SSHRSAAnsibleUserPrivateKey"]}"
     SSHRSABastionUserPublicKey   = "${var.keys["SSHRSABastionUserPublicKey"]}"
-    PLAYBOOK                     = "bastion.yml"
-    HOST                         = ""
+    ROLE                         = "bastion"
   }
 }
 

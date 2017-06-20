@@ -16,13 +16,11 @@ chown -R ubuntu:ubuntu /home/ubuntu/.ssh
 #accessing ansible served and triggering script to install appropriate packages
 while true
 do
-  HOST=$( curl http://169.254.169.254/latest/meta-data/local-ipv4 )
-  if sudo ssh ansible
+  HOST=`curl http://169.254.169.254/latest/meta-data/local-ipv4`
+  if ssh ansible sudo /opt/ansible/ansible_run.sh ${ROLE} $${HOST}
     then
-      cd /opt/ansible
-      ./ansible_run.sh ${PLAYBOOK} ${HOST}
       break
     else
-      wait 30
+      sleep 30
   fi
 done

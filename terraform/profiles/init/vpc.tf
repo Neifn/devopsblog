@@ -20,8 +20,7 @@ data "template_file" "userdata_nat" {
     ROUTETABLEID                 = "${aws_route_table.eu-west-1a-private.id}"
     ELASTICIP                    = "${aws_eip.nat_ip.id}"
     SSHRSAAnsibleUserPrivateKey  = "${var.keys["SSHRSAAnsibleUserPrivateKey"]}" 
-    PLAYBOOK                     = "nat.yml"
-    HOST                         = ""
+    ROLE                         = "nat"
   }
 }
 
