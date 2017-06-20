@@ -27,7 +27,8 @@ chown -R ansible-user:ansible-user /home/ansible-user/.ssh
 echo '#!/bin/bash
 cd /opt/ansible
 #running ansible-playbook with set values and sending output to log file
-nohup ansible-playbook ${1}.yml -i $2, -u ubuntu >/opt/ansible/${1}-$( date +"%Y%m%d%H%M" ).log 2>&1 &' > /opt/ansible/ansible_run.sh
+nohup ansible-playbook $${1}.yml -i $2, -u ubuntu >/opt/ansible/$${1}-$( date +"%Y%m%d%H%M" ).log 2>&1 &' > /opt/ansible/ansible_run.sh
+chmod +x /opt/ansible/ansible_run.sh
 
 #editing visudo to allow sudo usage of ansible_run.sh
 echo 'ansible-user ALL=NOPASSWD: /opt/ansible/ansible_run.sh' | sudo EDITOR='tee -a' visudo
